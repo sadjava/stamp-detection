@@ -31,10 +31,11 @@ I'll build a neural network using PyTorch. The goal here is to build a system to
 I have implemented the architecture proposed in this <a href="https://link.springer.com/article/10.1134/S1054661822040046">paper</a>. Here is the architecture:
 
 <img src="./images/architecture.png">
-<br>
+
 Image taken from <a href="https://link.springer.com/article/10.1134/S1054661822040046">paper</a>.  
 
 Note: As authors I used symReLU activation functions.
+
 <img src="./images/symrelu.png">
 
 ## Evaluation Criteria
@@ -43,7 +44,7 @@ Note: As authors I used symReLU activation functions.
 The YOLO loss function without classification loss was used, which holds balance between correct predicting of presence of stamp and its coordinates with shape. This following loss was used in the <a href="https://link.springer.com/article/10.1134/S1054661822040046">paper</a>, however I added weight coefficient to the second term ($h_{obj}$) to increase importance of detecting stamps.
 
 <img src="./images/loss-function.png">
-<br>
+
 Image taken from <a href="https://link.springer.com/article/10.1134/S1054661822040046">paper</a>.
 
 ### Performance Metric
