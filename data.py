@@ -76,6 +76,7 @@ def get_datasets(data_path=ANNOTATIONS_PATH, train_transforms=None, val_transfor
     data = read_data(data_path)
     if train_transforms is None:
         train_transforms = A.Compose([
+            A.RandomCropNearBBox(max_part_shift=0.6, p=0.4),
             A.Resize(height=448, width=448),
             A.HorizontalFlip(p=0.5),
             A.VerticalFlip(p=0.5),
@@ -99,15 +100,18 @@ def get_datasets(data_path=ANNOTATIONS_PATH, train_transforms=None, val_transfor
             "format":"coco",
             'label_fields': ['labels']
         })
-    train_data, val_data = train_test_split(data, test_size=0.2, shuffle=True)
+    train, test_data = train_test_split(data, test_size=0.1, shuffle=True)
+
+    train_data, val_data = train_test_split(train, test_size=0.2, shuffle=True)
 
     train_dataset = StampDataset(train_data, transforms=train_transforms)
     val_dataset = StampDataset(val_data, transforms=val_transforms)
+    test_dataset = StampDataset(test_data, transforms=val_transforms)
 
-    return train_dataset, val_dataset
+    return train_dataset, val_dataset, test_dataset
 
 
-def get_loaders(batch_size=8, data_path=ANNOTATIONS_PATH, train_transforms=None, val_transforms=None):
+def get_loaders(batch_size=8, data_path=ANNOTATIONS_PATH, num_workers=0, train_transforms=None, val_transforms=None):
     """
         Creates StampDataset objects.
 
@@ -120,12 +124,13 @@ def get_loaders(batch_size=8, data_path=ANNOTATIONS_PATH, train_transforms=None,
         Returns:
         (train_loader, val_loader) -- tuple of DataLoader for training and validation
     """
-    train_dataset, val_dataset = get_datasets(data_path)
+    train_dataset, val_dataset, _ = get_datasets(data_path)
 
     train_loader = DataLoader(
         train_dataset,
         batch_size=batch_size,
         shuffle=True,
+        num_workers=num_workers,
         collate_fn=collate_fn, drop_last=True)
 
     val_loader = DataLoader(
