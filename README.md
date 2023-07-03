@@ -20,7 +20,7 @@ Demo: https://huggingface.co/spaces/sadjava/stamp-detection
 - [Solution Approach](#solution-approach)
 
 ## Objective
-I'll build a neural network using PyTorch. The goal here is to build a system to detect all stapms on a given image if there is one. 
+I'll build a neural network using PyTorch. The goal here is to build a system to detect all stamps on a given image if there is one. 
 
 ## Dataset
 - Dataset consists of 3,000 images and 6,000 stamps on them.
